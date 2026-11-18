@@ -64,3 +64,7 @@ dialog.service-editor{margin:0 0 0 auto;height:100dvh;max-height:100dvh;width:62
 @media(max-width:900px){.understanding-cards{grid-template-columns:1fr}}
 .background-upload{padding:24px;background:var(--soft);border:1px solid var(--line);border-radius:var(--radius);margin:20px 0}
 .background-upload .background-fact{flex-wrap:wrap}.file-text{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;max-height:60vh;overflow:auto}
+/* Answers remain visually secondary to the questions. */
+#profile-form :is(input,textarea,select){color:var(--muted)}
+#profile-form textarea{min-height:120px;line-height:1.8;resize:vertical}
+#profile-form label>span{color:var(--ink);font-weight:500}

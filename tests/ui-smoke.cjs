@@ -24,7 +24,7 @@ run("location.hash='#strategy';S.strategyTab='定位策略';render()");assert.eq
 run("location.hash='#reception';render()");assert.equal(document.querySelector('.customer-disclosure').hasAttribute('open'),false);
 console.log('PASS: list/detail separation, customer drawer, collapsed reception details, focused strategy.');
 run("location.hash='#settings';S.profileTab='专业背景';render()");
-assert.equal(document.querySelectorAll('#profile-form [name]').length,17);
+assert.equal(document.querySelectorAll('#profile-form [name]').length,16);
 document.querySelector('[name="wish"]').value='简洁、温和、解释清楚';
 document.querySelector('#profile-form').dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));
 assert.equal(run('S.expertProfile.wish'),'简洁、温和、解释清楚');
@@ -181,3 +181,6 @@ console.log('PASS: understanding cards, corrections and filtered strategy contex
 run("location.hash='#settings';S.profileTab='专业背景';S.backgroundView='form';render()");click('[data-action="background-link-add"]');document.querySelector('[name="url"]').value='javascript:alert(1)';document.querySelector('#background-link-form').dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));assert.equal(run('S.backgroundLinks.length'),0);
 document.querySelector('[name="url"]').value='https://example.com/about';document.querySelector('[name="title"]').value='个人网站';document.querySelector('#background-link-form').dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));assert.equal(run('S.backgroundLinks.length'),1);assert.ok(document.querySelector('a[href="https://example.com/about"]'));click('[data-action="background-link-remove"]');assert.equal(run('S.backgroundLinks.length'),0);
 console.log('PASS: background links, protocol validation and removal.');
+
+run("location.hash='#settings';S.profileTab='专业背景';S.backgroundView='form';render()");assert.ok(document.querySelector('[name="externalFeedback"]'));assert.equal(document.querySelector('[name="hasAccount"]'),null);assert.ok(!document.querySelector('#profile-form').textContent.includes('自媒体现状'));
+console.log('PASS: external feedback replaces media-status questionnaire.');
