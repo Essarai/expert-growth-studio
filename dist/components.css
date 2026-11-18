@@ -49,3 +49,9 @@ body .modal-actions{display:flex;justify-content:flex-end;gap:12px;flex-wrap:wra
 .background-review p,.background-fact p,.background-intake .origin-record p{white-space:pre-wrap;overflow-wrap:anywhere;margin:8px 0}
 .background-review .badge{margin-left:12px}.background-review>.row{flex-wrap:wrap;flex-shrink:0}
 @media(max-width:760px){.background-review,.background-fact{flex-wrap:wrap}.background-review>div:first-child,.background-fact>div{flex-basis:100%}}
+.service-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.service-mini{padding:24px;border:1px solid var(--line);border-radius:var(--radius);display:flex;flex-direction:column;gap:12px;min-width:0}
+.service-mini h3{margin:0}.service-mini p{margin:0;overflow-wrap:anywhere}.service-mini>.row:last-child{margin-top:auto;padding-top:12px;border-top:1px solid var(--line)}
+.service-price{font-size:var(--heading)}
+dialog.service-editor{margin:0 0 0 auto;height:100dvh;max-height:100dvh;width:620px;max-width:100%;border-radius:0;padding:28px}
+@media(max-width:760px){.service-card-grid{grid-template-columns:1fr}dialog.service-editor{padding:20px}}
