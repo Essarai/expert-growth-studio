@@ -1,0 +1,44 @@
+/* Final shared controls: all modules use the same action and navigation contract. */
+:root{--control-height:38px;--control-radius:8px;--control-border:#dce3ed}
+body button:not(.contact-row):not(.calendar-post):not(.version-card):not(.market-theme-list button):not(.service-nav button):not(.video-controls button){font-size:var(--body);font-family:inherit;border-radius:var(--control-radius);line-height:1.4;box-shadow:none}
+body button.primary{background:var(--blue);border:1px solid var(--blue);color:white;min-height:var(--control-height);padding:8px 14px}
+body button.primary:hover{background:#264dcc;border-color:#264dcc}
+body button.quiet{background:transparent;border:1px solid transparent;color:var(--blue);min-height:34px;padding:6px 10px}
+body button.quiet:hover{background:var(--pale);border-color:transparent}
+body :is(.customer-top-actions,.modal-actions,.profile-save,.crm-actions)>button:not(.primary):not(.quiet):not(.icon-button){background:var(--surface);border:1px solid var(--control-border);color:var(--ink);min-height:var(--control-height);padding:8px 14px}
+body :is(select,input:not([type=checkbox]):not([type=radio]),textarea){border:1px solid var(--control-border);border-radius:var(--control-radius);background-color:var(--surface);color:var(--ink);font:inherit;box-sizing:border-box}
+body select{height:var(--control-height);min-height:var(--control-height);padding:8px 36px 8px 12px}
+body input:not([type=checkbox]):not([type=radio]){min-height:var(--control-height);padding:8px 12px}
+body textarea{padding:10px 12px;line-height:1.65}
+body :is(button,select,input,textarea,a):focus-visible{outline:3px solid #b1c5ff;outline-offset:2px}
+body :is(button,select,input,textarea):disabled{cursor:not-allowed;opacity:.55}
+/* Page navigation uses an underline; in-page filters use a soft selected chip. */
+body :is(.tabs,.customer-switch){display:flex;gap:24px;padding:0;margin:0 0 24px;background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;overflow-x:auto;flex-wrap:nowrap}
+body :is(.tabs,.customer-switch)>button{position:relative;flex-shrink:0;white-space:nowrap;min-height:44px;padding:10px 2px;border:0;border-bottom:2px solid transparent;border-radius:0!important;background:transparent;color:var(--muted);font-weight:500}
+body :is(.tabs,.customer-switch)>button.active{color:var(--blue);border-bottom-color:var(--blue);background:transparent;box-shadow:none}
+body :is(.tabs,.customer-switch)>button:after{display:none}
+body :is(.tabs,.customer-switch)>button:hover{background:var(--soft);color:var(--blue)}
+body .customer-topbar{border-bottom:1px solid var(--line);margin-bottom:24px;align-items:center}
+body .customer-topbar .customer-switch{border:0;margin:0;flex:1;min-width:0}
+body :is(.pills,.lead-focus){display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+body :is(.pills,.lead-focus)>button{min-height:34px;padding:6px 12px;border:1px solid transparent;border-radius:var(--control-radius);background:transparent;color:var(--muted)}
+body :is(.pills,.lead-focus)>button.active{border:1px solid #dfe7fc;background:var(--pale);color:var(--blue)}
+body :is(.pills,.lead-focus)>button:after{display:none}
+body :is(.library-toolbar,.analysis-toolbar,.crm-search,.inbox-toolbar,.content-toolbar){gap:12px;align-items:center}
+body :is(.library-toolbar,.analysis-toolbar,.crm-search,.content-toolbar){display:flex;flex-wrap:wrap;padding:16px 0;margin-bottom:20px;border-bottom:1px solid var(--line)}
+body .panel-head{min-height:32px;gap:16px;align-items:center}
+body .modal-actions{display:flex;justify-content:flex-end;gap:12px;flex-wrap:wrap}
+.operations-layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr);gap:24px;align-items:start}
+.operations-side{display:grid;gap:24px}
+.operations-layout .focus-tasks{min-width:0;padding:24px}
+.operations-layout .decision-row{display:flex;gap:20px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line)}
+.operations-layout .decision-copy{flex:1;min-width:0}
+.operations-layout .decision-copy h3{font-size:var(--body);margin:6px 0;font-weight:600;overflow-wrap:anywhere}
+.operations-layout .decision-copy p{margin:0;line-height:1.65}
+.operations-layout .decision-row>button{flex-shrink:0}
+.operation-progress{padding:18px 0;border-bottom:1px solid var(--line)}
+.operation-progress:last-child{border:0;padding-bottom:0}
+.operation-progress p,.operations-side>.panel>p{color:var(--muted);margin:8px 0 12px;line-height:1.7}
+.operation-progress a{display:inline-flex;align-items:center;gap:8px;color:var(--blue);padding:6px 10px}
+@media(max-width:1000px){.operations-layout{grid-template-columns:1fr}.operations-side{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.operations-side{grid-template-columns:1fr}.operations-layout .focus-tasks{padding:20px}.operations-layout .decision-row{flex-wrap:wrap}.operations-layout .decision-copy{flex-basis:100%}body :is(.tabs,.customer-switch){gap:16px}body .customer-topbar{flex-wrap:wrap}body .customer-top-actions{padding-bottom:12px}body .customer-switch{width:100%}}
