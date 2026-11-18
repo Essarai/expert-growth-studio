@@ -24,7 +24,7 @@ run("location.hash='#strategy';S.strategyTab='定位策略';render()");assert.eq
 run("location.hash='#reception';render()");assert.equal(document.querySelector('.customer-disclosure').hasAttribute('open'),false);
 console.log('PASS: list/detail separation, customer drawer, collapsed reception details, focused strategy.');
 run("location.hash='#settings';S.profileTab='专业背景';render()");
-assert.equal(document.querySelectorAll('#profile-form [name]').length,22);
+assert.equal(document.querySelectorAll('#profile-form [name]').length,6);
 document.querySelector('[name="tone"]').value='简洁、温和、解释清楚';
 document.querySelector('#profile-form').dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));
 assert.equal(run('S.expertProfile.tone'),'简洁、温和、解释清楚');
@@ -170,3 +170,15 @@ run("location.hash='#home';render()");click('[data-action="home-comment-evidence
 assert.equal(run("dueToday('2099-12-31')"),false);assert.equal(run("dueToday('今天内')"),true);
 assert.ok([...document.querySelectorAll('.decision-row')].filter(x=>!x.hidden).length<=5);
 console.log('PASS: operations task deduplication, waiting-response exclusion, platform-specific review, dated follow-ups, evidence and pagination.');
+
+run("location.hash='#settings';S.profileTab='专业背景';render()");
+assert.equal(document.querySelector('#profile-form [name="difference"]'),null);
+click('[data-action="background-import"]');document.querySelector('[name="material"]').value='从业八年。提供婚姻法律咨询。喜欢散步';document.querySelector('[name="source"]').value='个人简介';
+document.querySelector('#background-import-form').dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));
+assert.equal(run('S.backgroundDraft.length'),2);assert.ok(run('S.backgroundSources[0].text').includes('喜欢散步'));
+const previousCareer=run('S.expertProfile.career');assert.notEqual(previousCareer,'从业八年');
+click('[data-action="background-edit"][data-index="0"]');document.querySelector('#background-edit-form [name="value"]').value='从业九年';document.querySelector('#background-edit-form').dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));
+click('[data-action="background-confirm"][data-index="0"]');assert.equal(run('S.expertProfile.career'),'从业九年');assert.equal(run('S.backgroundConfirmed.career'),'个人简介');
+click('[data-action="background-dismiss"][data-index="0"]');assert.equal(run('S.backgroundDraft.length'),0);assert.equal(run('S.backgroundSources.length'),1);
+assert.ok(!/mock|模拟|演示/i.test(document.querySelector('#app').textContent));
+console.log('PASS: background intake, source retention, editable extraction, explicit fact confirmation and intent-only form.');
