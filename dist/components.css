@@ -55,3 +55,12 @@ body .modal-actions{display:flex;justify-content:flex-end;gap:12px;flex-wrap:wra
 .service-price{font-size:var(--heading)}
 dialog.service-editor{margin:0 0 0 auto;height:100dvh;max-height:100dvh;width:620px;max-width:100%;border-radius:0;padding:28px}
 @media(max-width:760px){.service-card-grid{grid-template-columns:1fr}dialog.service-editor{padding:20px}}
+.understanding-summary{padding:24px;background:var(--soft);border-radius:var(--radius);margin:24px 0}
+.understanding-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.understanding-card{border:1px solid var(--line);border-radius:var(--radius);padding:24px;min-width:0}
+.understanding-card p,.understanding-context p{overflow-wrap:anywhere;line-height:1.75}
+.understanding-card>.badge{margin-top:12px}.understanding-impact{padding:16px 0;margin:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.understanding-context{margin-bottom:24px}
+@media(max-width:900px){.understanding-cards{grid-template-columns:1fr}}
+.background-upload{padding:24px;background:var(--soft);border:1px solid var(--line);border-radius:var(--radius);margin:20px 0}
+.background-upload .background-fact{flex-wrap:wrap}.file-text{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;max-height:60vh;overflow:auto}

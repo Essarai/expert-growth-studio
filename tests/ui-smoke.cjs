@@ -5,7 +5,7 @@ const root=path.resolve(__dirname,'../dist');
 const {window,document}=parseHTML(fs.readFileSync(path.join(root,'index.html'),'utf8'));
 const dialog=document.querySelector('#dialog');dialog.showModal=function(){this.open=true};dialog.close=function(){this.open=false};
 window.HTMLDialogElement=window.HTMLElement;window.HTMLElement.prototype.showModal=function(){this.open=true};window.HTMLElement.prototype.close=function(){this.open=false};
-const context=vm.createContext({document,window,location:{hash:''},setTimeout:()=>1,clearTimeout:()=>{},console,FormData:class{constructor(f){this.rows=[...f.querySelectorAll('[name]')].map(x=>[x.name||x.getAttribute('name'),x.value])}entries(){return this.rows[Symbol.iterator]()}[Symbol.iterator](){return this.entries()}}});
+const context=vm.createContext({URL,document,window,location:{hash:''},setTimeout:()=>1,clearTimeout:()=>{},console,FormData:class{constructor(f){this.rows=[...f.querySelectorAll('[name]')].map(x=>[x.name||x.getAttribute('name'),x.value])}entries(){return this.rows[Symbol.iterator]()}[Symbol.iterator](){return this.entries()}}});
 vm.runInContext(fs.readFileSync(path.join(root,'app.js'),'utf8'),context);
 const run=code=>vm.runInContext(code,context),click=selector=>{const el=document.querySelector(selector);assert.ok(el,selector);el.dispatchEvent(new window.Event('click',{bubbles:true}))};
 for(const route of ['home','strategy','content','publish','reception','leads','analytics','settings']){run(`location.hash='#${route}';render()`);assert.ok(document.querySelector('#app').textContent.length>80,route)}
@@ -160,7 +160,7 @@ console.log('PASS: operations task deduplication, waiting-response exclusion, pl
 
 run("location.hash='#settings';S.profileTab='专业背景';render()");
 assert.equal(document.querySelector('#profile-form [name="difference"]'),null);
-assert.equal(document.querySelectorAll('#profile-form .profile-section').length,5);
+assert.equal(document.querySelectorAll('.understanding-card').length,5);click('[data-action="understanding-back"]');assert.equal(document.querySelectorAll('#profile-form .profile-section').length,5);
 run("location.hash='#settings';S.profileTab='服务清单';render()");
 click('[data-action="select-service"][data-service="婚姻法律咨询"]');
 for(const [k,v] of Object.entries({priceType:'固定价格',amount:'599',unit:'次',allowPrice:'允许',priceNote:'含一次线上咨询'})){const el=document.querySelector('#service-form [name="'+k+'"]');if(el.tagName==='SELECT'){for(const o of el.options)o.removeAttribute('selected');[...el.options].find(o=>o.value===v).selected=true}else el.value=v;}
@@ -171,3 +171,13 @@ document.querySelector('[name="amount"]').value='599';{const el=document.querySe
 click('[data-action="service-toggle"][data-service="婚姻法律咨询"]');assert.equal(run("serviceActive('婚姻法律咨询')"),false);assert.ok(run("priceReply('婚姻法律咨询')").includes('暂不接受'));
 click('[data-action="service-new"]');document.querySelector('[name="name"]').value='新服务';document.querySelector('[name="description"]').value='提供准备清单';document.querySelector('#service-new-form').dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));assert.equal(run("serviceRecord('新服务').status"),'待确认');assert.equal(run("serviceActive('新服务')"),false);
 console.log('PASS: service cards, isolated pricing, negative amount validation, disclosure permission, paused intake and new-service confirmation.');
+
+run("location.hash='#settings';S.profileTab='专业背景';S.backgroundView='form';render()");
+document.querySelector('#profile-form').dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));assert.equal(document.querySelectorAll('.understanding-card').length,5);
+click('[data-action="understanding-adjust"][data-index="1"]');document.querySelector('[name="note"]').value='希望增加企业咨询，不接诉讼';document.querySelector('#understanding-edit-form').dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));assert.ok(document.querySelectorAll('.understanding-card')[1].textContent.includes('希望增加企业咨询'));
+run("S.understandingEdits[3]={status:'暂不用于运营'}");click('[data-action="understanding-strategy"]');assert.ok(!run('S.strategyUnderstanding').some(r=>r.id===3));run("location.hash='#strategy';render()");assert.ok(document.querySelector('.understanding-context').textContent.includes('希望增加企业咨询'));
+console.log('PASS: understanding cards, corrections and filtered strategy context.');
+
+run("location.hash='#settings';S.profileTab='专业背景';S.backgroundView='form';render()");click('[data-action="background-link-add"]');document.querySelector('[name="url"]').value='javascript:alert(1)';document.querySelector('#background-link-form').dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));assert.equal(run('S.backgroundLinks.length'),0);
+document.querySelector('[name="url"]').value='https://example.com/about';document.querySelector('[name="title"]').value='个人网站';document.querySelector('#background-link-form').dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));assert.equal(run('S.backgroundLinks.length'),1);assert.ok(document.querySelector('a[href="https://example.com/about"]'));click('[data-action="background-link-remove"]');assert.equal(run('S.backgroundLinks.length'),0);
+console.log('PASS: background links, protocol validation and removal.');
